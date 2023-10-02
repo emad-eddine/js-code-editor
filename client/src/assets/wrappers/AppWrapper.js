@@ -70,6 +70,12 @@ const Wrapper = styled.section`
     background-color: var(--editor-color-light);
     flex: 1;
     position: relative;
+    color: var(--background-color-dark);
+  }
+
+  .output-container * {
+    margin: 1rem 2rem;
+    font-weight: 500;
   }
 `;
 

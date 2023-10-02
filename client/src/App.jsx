@@ -6,11 +6,31 @@ import Logo from './components/Logo';
 
 function App() {
   const [switchToEditor, setSwitchToEditor] = useState(true);
+  const [inputCode, setInputCode] = useState('');
+  const [outputResult, setOutputResult] = useState('');
+
+
+  const runCode = () => {
+    try {
+      // Override console.log to capture the output
+      const logs = [];
+      const originalConsoleLog = console.log;
+      console.log = (...args) => {
+        logs.push(args.map((arg) => JSON.stringify(arg)).join(' '));
+      };
+      // Execute the user's JavaScript code
+      eval(inputCode);
+      // Restore the original console.log
+      console.log = originalConsoleLog;
+      // Set the captured logs as the output
+      setOutputResult(logs.join('\n'));
+    } catch (error) {
+      setOutputResult(`Error: ${error.message}`);
+    }
+  };
   
-  
-
-
-
+  const screenWidth = window.innerWidth;
+console.log(`Screen width: ${screenWidth}px`);
   return (
     <Wrapper>
       <Logo />
@@ -43,16 +63,20 @@ function App() {
              <textarea
               id="code-editor-content"
               className='code-editor-container'
+              onChange={(e) => setInputCode(e.target.value)}
+              placeholder="//Enter JavaScript code here"
+              value={inputCode}
               
             ></textarea> 
       
-            <button type="button" className="btn run-btn">
+            <button onClick={runCode} type="button" className="btn run-btn">
               Run
             </button>
           </form>
         ) : (
           <div className="output-container">
-            
+            <h2>Output:</h2>
+            <h3>{outputResult}</h3>
           </div>
         )}
       </div>
