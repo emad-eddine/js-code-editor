@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Wrapper from './assets/wrappers/AppWrapper';
+import Logo from './components/Logo';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [switchToEditor, setSwitchToEditor] = useState(true);
+  
+  
+
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Wrapper>
+      <Logo />
+
+      <div className="container">
+        <div className="container-header">
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              setSwitchToEditor(true);
+            }}
+          >
+            Main.js
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              setSwitchToEditor(false);
+            }}
+          >
+            Output
+          </button>
+        </div>
+
+        {switchToEditor ? (
+          <form method="post">
+
+             <textarea
+              id="code-editor-content"
+              className='code-editor-container'
+              
+            ></textarea> 
+      
+            <button type="button" className="btn run-btn">
+              Run
+            </button>
+          </form>
+        ) : (
+          <div className="output-container">
+            
+          </div>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Wrapper>
+  );
 }
 
-export default App
+export default App;
